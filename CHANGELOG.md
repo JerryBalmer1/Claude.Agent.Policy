@@ -14,6 +14,6 @@
   fails closed), `hooks/post-tool-use.ps1`, `hooks/settings.json` (PreToolUse and PostToolUse, matcher `*`).
   Both spool `policy.allow | policy.deny | policy.witness` via `Add-LedgerEntry -Spool`, body
   `{phase, tool, kindAction, path, rule, reason?, command?}`.
-- Skills: `ledger-writer` (copied from Claude.Agent.Ledger 0.2.0), `readme`, `tool-map`; Pester checks each
+- Skills: `ledger-writer` (copied from Claude.Agent.Ledger 0.2.1), `readme`, `tool-map`; Pester checks each
   skill's front-matter version against its source module.
 - Pester: 39 tests (policy, hooks run as real pwsh processes, module and skills).

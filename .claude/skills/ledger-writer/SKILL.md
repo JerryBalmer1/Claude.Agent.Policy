@@ -1,12 +1,12 @@
 ---
 name: ledger-writer
 description: How this repo writes to Claude.Agent.Ledger — the writer side only (Add-LedgerEntry -Spool), the entry shape the keeper accepts, and what the hooks must never do. Copied from Claude.Agent.Ledger's README; read-only here. Use whenever a hook or a test writes or reads a policy.* entry, or the ledger fields {phase, tool, kindAction, path, rule, reason, command} change.
-version: 0.2.0
+version: 0.2.1
 ---
 
 # Writing to Claude.Agent.Ledger from the policy hooks
 
-Copied from Claude.Agent.Ledger 0.2.0 (`README.md`, Two roles and Chain format). Pester checks that `version`
+Copied from Claude.Agent.Ledger 0.2.1 (`README.md`, Two roles and Chain format). Pester checks that `version`
 above equals Claude.Agent.Ledger's `ModuleVersion`; when it does not, recopy from that README, do not edit here.
 
 ## The writer side is all the hooks get
@@ -36,4 +36,6 @@ The hooks spool to `$env:CLAUDE_AGENT_SPOOL`, else `/spool`; never point them at
 - The agent can lie in, omit, or edit spooled lines before the keeper takes them (Claude.Agent.Ledger design 3).
   A policy entry is evidence of what the hook decided, not proof the hook ran for every call.
 - The pre hook writes its entry before it answers, and fails closed (exit 2) if the write throws.
+- `seq` is the writer's and must run 1, 2, 3, ... in the ledger; `Test-Ledger` reports anything else as
+  `seq-gap`. Never write or edit `<Spool>/seq` or `pending.jsonl` from a hook.
 - Reading or verifying the ledger (`Get-Ledger`, `Test-Ledger`) happens on the host, never in a hook.
