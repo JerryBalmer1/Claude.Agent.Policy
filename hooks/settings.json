@@ -1,0 +1,20 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "pwsh -NoProfile -NonInteractive -File /opt/agent/policy/hooks/pre-tool-use.ps1", "timeout": 30 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "*",
+        "hooks": [
+          { "type": "command", "command": "pwsh -NoProfile -NonInteractive -File /opt/agent/policy/hooks/post-tool-use.ps1", "timeout": 30 }
+        ]
+      }
+    ]
+  }
+}

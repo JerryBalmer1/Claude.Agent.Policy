@@ -1,0 +1,11 @@
+{
+  "default": "deny",
+  "byAction": {
+    "read": { "effect": "allow" },
+    "write": { "effect": "allow", "paths": ["/work/**"] },
+    "delete": { "effect": "deny" }
+  },
+  "byKindAction": {
+    "Shell.exec": { "effect": "witness" }
+  }
+}

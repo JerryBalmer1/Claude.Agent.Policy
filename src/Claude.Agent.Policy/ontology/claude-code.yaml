@@ -1,0 +1,20 @@
+# Actions Claude Code's own tools perform, in the emitter ontology shape (kinds -> actions).
+# Graph.Emitter.FileSystem declares only File.delete and Directory.delete; the tool map (design.md 1) also
+# needs these. New-Policy and Test-Policy always read this file alongside the ontologies they are given.
+module: Claude.Agent.Policy
+version: 0.1.0
+kinds:
+  File:
+    actions:
+      - name: read
+        description: Read a file's contents (Claude Code Read).
+      - name: write
+        description: Create or change a file (Claude Code Edit, MultiEdit, Write, NotebookEdit).
+  Directory:
+    actions:
+      - name: read
+        description: List or search a directory (Claude Code Glob, Grep, LS).
+  Shell:
+    actions:
+      - name: exec
+        description: Run a shell command (Claude Code Bash) that is not recognised as a delete.
