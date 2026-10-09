@@ -1,7 +1,7 @@
 ---
 name: tool-map
 description: Keep the Claude Code tool -> Kind.action map in step across design.md 1, the $script:ToolMap and Get-ShellTarget in Private/PolicyCore.ps1, ontology/claude-code.yaml, policy.defaults.json and the tests. Use whenever a Claude Code tool is added, renamed or remapped, the Bash delete classifier changes, an emitter ontology gains an action, or a default effect changes.
-version: 0.1.0
+version: 0.1.1
 ---
 
 # Tool map
