@@ -54,6 +54,29 @@ edgeKinds:
         @($p.rules | Where-Object kind -eq 'Volume' | ForEach-Object action) | Should -Be @('delete', 'read')
         @($p.rules | Where-Object action -eq 'ignored') | Should -HaveCount 0
     }
+
+    It 'ignores list items nested in an action (inputs as a list, as Graph.Emitter.FileSystem 0.1.2 writes them)' {
+        $onto = Join-Path $TestDrive 'inputs-list.yaml'
+        Set-Content -LiteralPath $onto -Value @"
+module: X
+kinds:
+  File:
+    actions:
+      - name: delete
+        inputs:
+          - { name: id, type: File, required: true }
+          - name: force
+            type: boolean
+        returns: { type: File }
+      - name: read
+"@
+        $p = New-Policy -OntologyPath $onto
+        $actions = @($p.rules | Where-Object kind -eq 'File' | ForEach-Object action)
+        $actions | Should -Contain 'delete'
+        $actions | Should -Contain 'read'
+        $actions | Should -Not -Contain 'id'
+        $actions | Should -Not -Contain 'force'
+    }
 }
 
 Describe 'Test-Policy' {

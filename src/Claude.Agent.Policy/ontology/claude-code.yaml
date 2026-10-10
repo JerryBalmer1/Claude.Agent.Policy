@@ -2,7 +2,7 @@
 # Graph.Emitter.FileSystem declares only File.delete and Directory.delete; the tool map (design.md 1) also
 # needs these. New-Policy and Test-Policy always read this file alongside the ontologies they are given.
 module: Claude.Agent.Policy
-version: 0.1.1
+version: 0.1.2
 kinds:
   File:
     actions:

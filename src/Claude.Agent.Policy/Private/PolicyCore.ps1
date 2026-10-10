@@ -31,7 +31,7 @@ function Read-OntologyAction {
     if (-not (Test-Path -LiteralPath $Path -PathType Leaf)) { throw "Ontology not found at '$Path'." }
     $found = [System.Collections.Generic.List[string]]::new()
     $inKinds = $false; $kindIndent = -1; $kind = $null
-    $actionsIndent = -1; $itemKeyIndent = -1
+    $actionsIndent = -1; $itemIndent = -1; $itemKeyIndent = -1
 
     foreach ($raw in [System.IO.File]::ReadAllLines($Path)) {
         $line = [regex]::Replace($raw, '(^|\s)#.*$', '')
@@ -60,13 +60,15 @@ function Read-OntologyAction {
                 $rest = $Matches[1].Trim()
                 if ($rest -eq '[]') { continue }
                 if ($rest) { throw "Ontology '$Path': flow-style actions under $kind are not supported; use a block list." }
-                $actionsIndent = $indent; $itemKeyIndent = -1
+                $actionsIndent = $indent; $itemIndent = -1; $itemKeyIndent = -1
             }
             continue
         }
 
-        # Inside actions: '- ' starts an item; its keys sit at the column after the dash.
-        if ($text.StartsWith('- ')) {
+        # Inside actions: '- ' at the first item's column starts an item; its keys sit at the column after the dash.
+        # A deeper '- ' belongs to a list inside an item (inputs: - { name: id, ... }) and is not an action.
+        if ($text.StartsWith('- ') -and ($itemIndent -lt 0 -or $indent -eq $itemIndent)) {
+            $itemIndent = $indent
             $itemKeyIndent = $indent + 2
             $text = $text.Substring(2).Trim()
             if ($text -match '^\{(.*)\}$') {

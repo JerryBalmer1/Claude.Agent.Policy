@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.2 - 2026-10-09
+
+- `Read-OntologyAction` takes a `- ` line as an action only at the first item's column. Graph.Emitter.FileSystem
+  0.1.2 writes action `inputs` as a list (`- { name: id, type: File, ... }`), which 0.1.1 read as actions
+  `File.id` and `Directory.id`, so `New-Policy` threw for want of a default. New test in `tests/Policy.Tests.ps1`.
+  The generated rules are unchanged: still `Directory.delete` and `File.delete` from the emitter.
+- `tests/fixtures/Graph.Emitter.FileSystem.ontology.yaml` recopied at 0.1.2.
+- `ledger-writer` recopied at Claude.Agent.Ledger 0.2.5: the stamp format and the stricter rejection rule from
+  the README's Chain format (0.2.4). Skills `readme`, `tool-map` and `ontology/claude-code.yaml` at 0.1.2 with the module.
+
 ## 0.1.1 - 2026-10-08
 
 - 0.1.1: git-guard hook; run-report 0.2.2; graph-node 0.2.1
